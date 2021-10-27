@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Department</title>
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+
+<div class="p-3">
+  <h3>Update Department</h3>
+
+  <form method="post" th:action="@{/updatedept/{id}(id = ${id})}" th:object="${dept}">
+    <div class="mb-3">
+      <label  class="form-label">Department Name</label>
+      <input type="text" class="form-control" th:value="${dept.deptNameFurigana}"
+             id="deptNameFurigana" name="deptNameFurigana">
+      <div id="nameHelp" class="form-text">Please enter Furigana.</div>
+    </div>
+
+    <div class="mb-3">
+      <label  class="form-label">Department Name Kanji</label>
+      <input type="text" class="form-control" th:value="${dept.deptNameKanji}"
+             id="deptNameKanji" name="deptNameKanji">
+      <div id="nameHelp2" class="form-text">Please enter kanji.</div>
+    </div>
+
+    <div class="mb-3">
+      <label  class="form-label">Department Extension Number</label>
+      <input type="text" class="form-control" th:value="${dept.deptExtensionNumber}"
+             id="deptExtensionNumber" name="deptExtensionNumber">
+      <div id="nameHelp3" class="form-text">Please enter Extension Number.</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+</div>
+
+</body>
+</html>

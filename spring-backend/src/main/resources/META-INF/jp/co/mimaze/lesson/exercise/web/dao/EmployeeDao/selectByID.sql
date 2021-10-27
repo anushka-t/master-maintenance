@@ -1,0 +1,1 @@
+select /*%expand*/* from Employee where EmpID = /* empID */0

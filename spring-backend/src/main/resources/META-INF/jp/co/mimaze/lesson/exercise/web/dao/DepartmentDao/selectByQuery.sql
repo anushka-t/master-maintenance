@@ -1,0 +1,1 @@
+select /*%expand*/* from Department where DeptNameFurigana like /* searchQuery+'%' */'dept%'

@@ -1,0 +1,90 @@
+<div class="flex justify-center">
+  <table class="table-auto">
+    <thead>
+      <tr>
+        <th class="px-2">Name</th>
+        <th class="px-2">Name Kana</th>
+        <th class="px-2">Ext No</th>
+        <th class="px-2">Update</th>
+        <th class="px-2">Delete</th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <tr *ngFor="let dept of departments">
+        <td class="px-2">{{ dept.nameFurigana }}</td>
+        <td class="px-2">{{ dept.nameKanji }}</td>
+        <td class="px-2">{{ dept.extensionNumber }}</td>
+        <td class="p-2 rounded-lg text-white bg-blue-700">
+          <button (click)="update(dept.id)">Update</button>
+        </td>
+        <td class="p-2 rounded-lg text-white bg-red-700">
+          <button (click)="delete(dept.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div>
+  <button class="p-2 rounded-lg text-white bg-blue-700" (click)="setShowCreateForm(true)">
+    +
+  </button>
+</div>
+
+<div *ngIf="showCreateForm">
+  <form [formGroup]="newDepartmentForm" (ngSubmit)="onCreate()">
+    <div>
+      <label for="nameFurigana">Name: </label>
+      <input type="text" name="nameFurigana" id="nameFurigana" formControlName="nameFurigana" required>
+      <div *ngIf="newDepartment.nameFurigana.invalid && (newDepartment.nameFurigana.dirty || newDepartment.nameFurigana.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newDepartment.nameFurigana.errors?.required">
+          This field is required.
+        </div>
+      </div>
+    </div>
+    <div>
+      <label for="nameKanji">Name Kana: </label>
+      <input type="text" name="nameKanji" id="nameKanji" formControlName="nameKanji" required>
+      <div *ngIf="newDepartment.nameKanji.invalid && (newDepartment.nameKanji.dirty || newDepartment.nameKanji.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newDepartment.nameKanji.errors?.required">
+          This field is required.
+        </div>
+      </div>
+    </div>
+    <div>
+      <label for="extensionNumber">Extension Number: </label>
+      <input type="number" name="extensionNumber" id="extensionNumber" formControlName="extensionNumber" required>
+      <div *ngIf="newDepartment.extensionNumber.invalid && (newDepartment.extensionNumber.dirty || newDepartment.extensionNumber.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newDepartment.extensionNumber.errors?.required">
+          This field is required.
+        </div>
+      </div>
+    </div>
+    <button type="submit" [disabled]="!newDepartmentForm.valid" 
+            class="p-2 rounded-lg text-white bg-blue-700 disabled:opacity-50">
+      Create
+    </button>
+  </form>
+</div>
+
+<div *ngIf="showUpdateForm">
+  <form [formGroup]="updatedDepartment" (ngSubmit)="onUpdate()">
+    <div>
+      <label for="nameFurigana">Name: </label>
+      <input type="text" name="nameFurigana" id="nameFurigana" formControlName="nameFurigana">
+    </div>
+    <div>
+      <label for="nameKanji">Name Kana: </label>
+      <input type="text" name="nameKanji" id="nameKanji" formControlName="nameKanji">
+    </div>
+    <div>
+      <label for="extensionNumber">Extension Number: </label>
+      <input type="number" name="extensionNumber" id="extensionNumber" formControlName="extensionNumber">
+    </div>
+    <button type="submit">Update</button>
+  </form>
+</div>

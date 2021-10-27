@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample Page</title>
+</head>
+<body>
+<h3>Sample Page</h3>
+
+<form method="post" th:action="@{/sample}" th:object="${sampleForm}">
+    <input type="text" th:field="*{name}"/>
+    <button type="submit">送信</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+<div class="flex justify-center">
+  <table class="table-auto">
+    <thead>
+      <tr>
+        <th class="px-2">Name</th>
+        <th class="px-2">Name Kana</th>
+        <th class="px-2">Email</th>
+        <th class="px-2">Joining Date</th>
+        <th class="px-2">Dept Name</th>
+        <th class="px-2">Update</th>
+        <th class="px-2">Delete</th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <tr *ngFor="let emp of employees">
+        <td class="px-2"> {{ emp.nameFurigana }}</td>
+        <td class="px-2"> {{ emp.nameKanji }}</td>
+        <td class="px-2"> {{ emp.email }}</td>
+        <td class="px-2"> {{ emp.joiningDate | date }}</td>
+        <td class="px-2"> {{ emp.deptNameFurigana }}</td>
+        <td class="p-2 rounded-lg text-white bg-blue-700">
+          <button (click)="update(emp.id)">Update</button>
+        </td>
+        <td class="p-2 rounded-lg text-white bg-red-700">
+          <button (click)="delete(emp.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="flex">
+  <button class="p-2 rounded-lg text-white bg-blue-700" (click)="setShowCreateForm(true)">
+    +
+  </button>
+</div>
+
+<div *ngIf="showCreateForm">
+  <form [formGroup]="newEmployeeForm" (ngSubmit)="onCreate()">
+    <div>
+      <label for="nameFurigana">Name: </label>
+      <input id="nameFurigana" type="text" formControlName="nameFurigana" required>
+      <div *ngIf="newEmployee.nameFurigana.invalid && (newEmployee.nameFurigana.dirty || newEmployee.nameFurigana.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newEmployee.nameFurigana.errors?.required">
+          This field is required.
+        </div>
+      </div>
+    </div>
+    <div>
+      <label for="nameKanji">Name Kana: </label>
+      <input id="nameKanji" type="text" formControlName="nameKanji" required>
+      <div *ngIf="newEmployee.nameKanji.invalid && (newEmployee.nameKanji.dirty || newEmployee.nameKanji.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newEmployee.nameKanji.errors?.required">
+          This field is required.
+        </div>
+      </div>
+    </div>
+    <div>
+      <label for="email">Email: </label>
+      <input id="email" type="email" formControlName="email" required>
+      <div *ngIf="newEmployee.email.invalid && (newEmployee.email.dirty || newEmployee.email.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newEmployee.email.errors?.required">
+          This field is required.
+        </div>
+      </div>
+    </div>
+    <div>
+      <label for="joiningDate">Joining Date: </label>
+      <input id="joiningDate" type="date" formControlName="joiningDate" required>
+      <div *ngIf="newEmployee.joiningDate.invalid && (newEmployee.joiningDate.dirty || newEmployee.joiningDate.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newEmployee.joiningDate.errors?.required">
+          This field is required.
+        </div>
+      </div>
+    </div>
+    <div>
+      <label for="deptID">Dept: </label>
+      <select id="deptID" formControlName="deptID" required>
+        <option *ngFor="let dept of departments" [value]="dept.id"> {{dept.nameFurigana}} </option>
+      </select>
+      <div *ngIf="newEmployee.deptID.invalid && (newEmployee.deptID.dirty || newEmployee.deptID.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newEmployee.deptID.errors?.required">
+          This field is required.
+        </div>
+      </div>
+    </div>
+    <button type="submit" [disabled]="!newEmployeeForm.valid" 
+            class="p-2 rounded-lg text-white bg-blue-700 disabled:opacity-50">
+      Create
+    </button>
+  </form>
+</div>
+
+<div *ngIf="showUpdateForm">
+  <form [formGroup]="updatedEmployee" (ngSubmit)="onUpdate()">
+    <div>
+      <label for="nameFurigana">Name: </label>
+      <input id="nameFurigana" type="text" formControlName="nameFurigana">
+    </div>
+    <div>
+      <label for="nameKanji">Name Kana: </label>
+      <input id="nameKanji" type="text" formControlName="nameKanji">
+    </div>
+    <div>
+      <label for="email">Email: </label>
+      <input id="email" type="email" formControlName="email">
+    </div>
+    <div>
+      <label for="joiningDate">Joining Date: </label>
+      <input id="joiningDate" type="date" formControlName="joiningDate">
+    </div>
+    <div>
+      <label for="deptID">Dept: </label>
+      <select id="deptID" formControlName="deptID">
+        <option *ngFor="let dept of departments" [value]="dept.id"> {{dept.nameFurigana}} </option>
+      </select>
+    </div>
+    <button type="submit">Update</button>
+  </form>
+</div>

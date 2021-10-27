@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Employee</title>
+
+  <link th:rel="stylesheet" th:href="@{bootstrap-datepicker/css/bootstrap-datepicker.css}"/>
+  <link th:rel="stylesheet" th:href="@{bootstrap-datepicker/css/bootstrap-datepicker.standalone.css}"/>
+  <link th:rel="stylesheet" th:href="@{webjars/bootstrap/css/bootstrap.min.css} "/>
+  <link th:rel="stylesheet" th:href="@{webjars/font-awesome/css/all.css} "/>
+
+  <script th:src="@{webjars/jquery/jquery.min.js}"></script>
+  <script th:src="@{webjars/popper.js/umd/popper.min.js}"></script>
+  <script th:src="@{webjars/bootstrap/js/bootstrap.min.js}"></script>
+  <script th:src="@{bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+
+</head>
+<body>
+
+<div class="p-3">
+  <h3>Add Employee</h3>
+
+  <form method="post" class="needs-validation" novalidate
+        th:action="@{/create}" th:object="${createForm}">
+    <div class="mb-3">
+      <label  class="form-label">Employee Name</label>
+      <input type="text" class="form-control" th:field="*{empNameFurigana}" required>
+      <div id="nameHelp" class="form-text">Please enter Furigana.</div>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback">
+        This is a required field.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label  class="form-label">Employee Name Kanji</label>
+      <input type="text" class="form-control" th:field="*{empNameKanji}" required>
+      <div id="nameHelp2" class="form-text">Please enter kanji.</div>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback">
+        This is a required field.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label  class="form-label">Employee Email</label>
+      <input type="email" class="form-control" th:field="*{empEmail}" required>
+      <div id="nameHelp3" class="form-text">Please enter MailId.</div>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback">
+        This is a required field.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label  class="form-label">Employee Joining Date</label>
+      <div class="input-group date">
+        <input type="text" class="form-control" autocomplete="off" th:field="*{empJoiningDate}" required>
+        <div class="input-group-append">
+          <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+        </div>
+      </div>
+      <div id="nameHelp4" class="form-text">Please enter Joining Date </div>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback">
+        This is a required field.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label  class="form-label">Department Name</label>
+      <select id="deptID" name="deptID" class="form-select" required>
+        <option disabled value="" selected>Choose...</option>
+        <option th:each="dept: ${depts}" th:text="${dept.deptNameFurigana}" th:value="${dept.deptID}"></option>
+      </select>
+      <div id="nameHelp5" class="form-text">Please select Department Name</div>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback">
+        This is a required field.
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+</div>
+
+<script>
+    $('.input-group.date').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    });
+</script>
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+
+</body>
+</html>
