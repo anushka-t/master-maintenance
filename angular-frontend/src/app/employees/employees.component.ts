@@ -12,6 +12,7 @@ import { EmployeeService } from '../service/employee.service';
 })
 export class EmployeesComponent implements OnInit {
 
+  columnsToDisplay: string[] = ['nameFurigana', 'nameKanji', 'email', 'joiningDate', 'deptNameFurigana', 'editButton', 'deleteButton']
   employees: Employee[]
   departments: Department[]
   showCreateForm: boolean = false

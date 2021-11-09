@@ -1,126 +1,153 @@
-<div class="flex justify-center">
-  <table class="table-auto">
-    <thead>
-      <tr>
-        <th class="px-2">Name</th>
-        <th class="px-2">Name Kana</th>
-        <th class="px-2">Email</th>
-        <th class="px-2">Joining Date</th>
-        <th class="px-2">Dept Name</th>
-        <th class="px-2">Update</th>
-        <th class="px-2">Delete</th>
-      </tr>
-    </thead>
-  
-    <tbody>
-      <tr *ngFor="let emp of employees">
-        <td class="px-2"> {{ emp.nameFurigana }}</td>
-        <td class="px-2"> {{ emp.nameKanji }}</td>
-        <td class="px-2"> {{ emp.email }}</td>
-        <td class="px-2"> {{ emp.joiningDate | date }}</td>
-        <td class="px-2"> {{ emp.deptNameFurigana }}</td>
-        <td class="p-2 rounded-lg text-white bg-blue-700">
-          <button (click)="update(emp.id)">Update</button>
-        </td>
-        <td class="p-2 rounded-lg text-white bg-red-700">
-          <button (click)="delete(emp.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
+<div>
+  <table class="w-full mat-elevation-z5" mat-table [dataSource]="employees">
+
+    <!-- Name Furigana Column -->
+    <ng-container matColumnDef="nameFurigana">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let emp"> {{emp.nameFurigana}} </td>
+    </ng-container>
+
+    <!-- Name Kanji Column -->
+    <ng-container matColumnDef="nameKanji">
+      <th mat-header-cell *matHeaderCellDef>Name Kana</th>
+      <td mat-cell *matCellDef="let emp"> {{emp.nameKanji}} </td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let emp"> {{emp.email}} </td>
+    </ng-container>
+
+    <!-- Joining Date Column -->
+    <ng-container matColumnDef="joiningDate">
+      <th mat-header-cell *matHeaderCellDef>Joining Date</th>
+      <td mat-cell *matCellDef="let emp"> {{emp.joiningDate | date}} </td>
+    </ng-container>
+
+    <!-- Dept Name Column -->
+    <ng-container matColumnDef="deptNameFurigana">
+      <th mat-header-cell *matHeaderCellDef>Dept Name</th>
+      <td mat-cell *matCellDef="let emp"> {{emp.deptNameFurigana}} </td>
+    </ng-container>
+
+    <!-- Edit Button Column -->
+    <ng-container matColumnDef="editButton">
+      <th mat-header-cell *matHeaderCellDef>Edit</th>
+      <td mat-cell *matCellDef="let emp">
+        <button mat-mini-fab color="accent" aria-label="Edit button" (click)="update(emp.id)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Delete Button Column -->
+    <ng-container matColumnDef="deleteButton">
+      <th mat-header-cell *matHeaderCellDef>Delete</th>
+      <td mat-cell *matCellDef="let emp">
+        <button mat-mini-fab color="warn" aria-label="Delete button" (click)="delete(emp.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
   </table>
 </div>
 
 <div class="flex">
-  <button class="p-2 rounded-lg text-white bg-blue-700" (click)="setShowCreateForm(true)">
-    +
+  <button mat-mini-fab color="accent" aria-label="Add button" (click)="setShowCreateForm(true)">
+    <mat-icon>add</mat-icon>
   </button>
 </div>
 
 <div *ngIf="showCreateForm">
-  <form [formGroup]="newEmployeeForm" (ngSubmit)="onCreate()">
-    <div>
-      <label for="nameFurigana">Name: </label>
-      <input id="nameFurigana" type="text" formControlName="nameFurigana" required>
+  <form [formGroup]="newEmployeeForm" (ngSubmit)="onCreate()" 
+        class="flex flex-col">
+    <mat-form-field>
+      <mat-label for="nameFurigana">Name: </mat-label>
+      <input matInput id="nameFurigana" type="text" formControlName="nameFurigana" required>
       <div *ngIf="newEmployee.nameFurigana.invalid && (newEmployee.nameFurigana.dirty || newEmployee.nameFurigana.touched)"
         class="alert alert-danger">
         <div *ngIf="newEmployee.nameFurigana.errors?.required">
           This field is required.
         </div>
       </div>
-    </div>
-    <div>
-      <label for="nameKanji">Name Kana: </label>
-      <input id="nameKanji" type="text" formControlName="nameKanji" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="nameKanji">Name Kana: </mat-label>
+      <input matInput id="nameKanji" type="text" formControlName="nameKanji" required>
       <div *ngIf="newEmployee.nameKanji.invalid && (newEmployee.nameKanji.dirty || newEmployee.nameKanji.touched)"
         class="alert alert-danger">
         <div *ngIf="newEmployee.nameKanji.errors?.required">
           This field is required.
         </div>
       </div>
-    </div>
-    <div>
-      <label for="email">Email: </label>
-      <input id="email" type="email" formControlName="email" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="email">Email: </mat-label>
+      <input matInput id="email" type="email" formControlName="email" required>
       <div *ngIf="newEmployee.email.invalid && (newEmployee.email.dirty || newEmployee.email.touched)"
         class="alert alert-danger">
         <div *ngIf="newEmployee.email.errors?.required">
           This field is required.
         </div>
       </div>
-    </div>
-    <div>
-      <label for="joiningDate">Joining Date: </label>
-      <input id="joiningDate" type="date" formControlName="joiningDate" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="joiningDate">Joining Date: </mat-label>
+      <input matInput id="joiningDate" type="date" formControlName="joiningDate" required>
       <div *ngIf="newEmployee.joiningDate.invalid && (newEmployee.joiningDate.dirty || newEmployee.joiningDate.touched)"
         class="alert alert-danger">
         <div *ngIf="newEmployee.joiningDate.errors?.required">
           This field is required.
         </div>
       </div>
-    </div>
-    <div>
-      <label for="deptID">Dept: </label>
-      <select id="deptID" formControlName="deptID" required>
-        <option *ngFor="let dept of departments" [value]="dept.id"> {{dept.nameFurigana}} </option>
-      </select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="deptID">Dept: </mat-label>
+      <mat-select id="deptID" formControlName="deptID" required>
+        <mat-option *ngFor="let dept of departments" [value]="dept.id"> {{dept.nameFurigana}} </mat-option>
+      </mat-select>
       <div *ngIf="newEmployee.deptID.invalid && (newEmployee.deptID.dirty || newEmployee.deptID.touched)"
         class="alert alert-danger">
         <div *ngIf="newEmployee.deptID.errors?.required">
           This field is required.
         </div>
       </div>
-    </div>
-    <button type="submit" [disabled]="!newEmployeeForm.valid" 
-            class="p-2 rounded-lg text-white bg-blue-700 disabled:opacity-50">
+    </mat-form-field>
+    <button mat-flat-button color="primary" type="submit" [disabled]="!newEmployeeForm.valid">
       Create
     </button>
   </form>
 </div>
 
 <div *ngIf="showUpdateForm">
-  <form [formGroup]="updatedEmployee" (ngSubmit)="onUpdate()">
-    <div>
-      <label for="nameFurigana">Name: </label>
-      <input id="nameFurigana" type="text" formControlName="nameFurigana">
-    </div>
-    <div>
-      <label for="nameKanji">Name Kana: </label>
-      <input id="nameKanji" type="text" formControlName="nameKanji">
-    </div>
-    <div>
-      <label for="email">Email: </label>
-      <input id="email" type="email" formControlName="email">
-    </div>
-    <div>
-      <label for="joiningDate">Joining Date: </label>
-      <input id="joiningDate" type="date" formControlName="joiningDate">
-    </div>
-    <div>
-      <label for="deptID">Dept: </label>
-      <select id="deptID" formControlName="deptID">
-        <option *ngFor="let dept of departments" [value]="dept.id"> {{dept.nameFurigana}} </option>
-      </select>
-    </div>
-    <button type="submit">Update</button>
+  <form [formGroup]="updatedEmployee" (ngSubmit)="onUpdate()"
+        class="flex flex-col">
+    <mat-form-field>
+      <mat-label for="nameFurigana">Name: </mat-label>
+      <input matInput id="nameFurigana" type="text" formControlName="nameFurigana">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="nameKanji">Name Kana: </mat-label>
+      <input matInput id="nameKanji" type="text" formControlName="nameKanji">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="email">Email: </mat-label>
+      <input matInput id="email" type="email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="joiningDate">Joining Date: </mat-label>
+      <input matInput id="joiningDate" type="date" formControlName="joiningDate">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="deptID">Dept: </mat-label>
+      <mat-select id="deptID" formControlName="deptID">
+        <mat-option *ngFor="let dept of departments" [value]="dept.id"> {{dept.nameFurigana}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-flat-button color="primary" type="submit">Update</button>
   </form>
 </div>

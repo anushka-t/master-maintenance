@@ -10,6 +10,7 @@ import { DepartmentService } from '../service/department.service';
 })
 export class DepartmentsComponent implements OnInit {
 
+  columnsToDisplay: string[] = ['nameFurigana', 'nameKanji', 'extensionNumber', 'editButton', 'deleteButton']
   departments: Department[];
   showCreateForm: boolean = false;
   showUpdateForm: boolean = false;
