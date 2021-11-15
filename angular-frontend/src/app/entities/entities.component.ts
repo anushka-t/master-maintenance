@@ -9,7 +9,7 @@ import { AbstractRestService } from '../service/abstract-rest.service';
 })
 export class EntitiesComponent<T> implements OnInit {
 
-  @Input() attributes: string[]
+  attributes: string[]
   tableData: T[]
   columnsToDisplay: string[]
   showCreateForm: boolean = false
@@ -17,7 +17,10 @@ export class EntitiesComponent<T> implements OnInit {
   newEntityForm: FormGroup
   updatedEntityForm: FormGroup
 
-  constructor(protected restService: AbstractRestService<T>) { }
+  constructor(protected restService: AbstractRestService<T>, 
+    @Inject('attributes') protected _attributes: string[]) { 
+    this.attributes = _attributes
+  }
   
   ngOnInit(): void {
     this.columnsToDisplay = this.attributes.concat(['editButton', 'deleteButton'])
