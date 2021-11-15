@@ -1,68 +1,11 @@
-<div>
-  <table class="w-full mat-elevation-z5" mat-table [dataSource]="employees">
-
-    <!-- Name Furigana Column -->
-    <ng-container matColumnDef="nameFurigana">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let emp"> {{emp.nameFurigana}} </td>
-    </ng-container>
-
-    <!-- Name Kanji Column -->
-    <ng-container matColumnDef="nameKanji">
-      <th mat-header-cell *matHeaderCellDef>Name Kana</th>
-      <td mat-cell *matCellDef="let emp"> {{emp.nameKanji}} </td>
-    </ng-container>
-
-    <!-- Email Column -->
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let emp"> {{emp.email}} </td>
-    </ng-container>
-
-    <!-- Joining Date Column -->
-    <ng-container matColumnDef="joiningDate">
-      <th mat-header-cell *matHeaderCellDef>Joining Date</th>
-      <td mat-cell *matCellDef="let emp"> {{emp.joiningDate | date}} </td>
-    </ng-container>
-
-    <!-- Dept Name Column -->
-    <ng-container matColumnDef="deptNameFurigana">
-      <th mat-header-cell *matHeaderCellDef>Dept Name</th>
-      <td mat-cell *matCellDef="let emp"> {{emp.deptNameFurigana}} </td>
-    </ng-container>
-
-    <!-- Edit Button Column -->
-    <ng-container matColumnDef="editButton">
-      <th mat-header-cell *matHeaderCellDef>Edit</th>
-      <td mat-cell *matCellDef="let emp">
-        <button mat-mini-fab color="accent" aria-label="Edit button" (click)="update(emp.id)">
-          <mat-icon>edit</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-
-    <!-- Delete Button Column -->
-    <ng-container matColumnDef="deleteButton">
-      <th mat-header-cell *matHeaderCellDef>Delete</th>
-      <td mat-cell *matCellDef="let emp">
-        <button mat-mini-fab color="warn" aria-label="Delete button" (click)="delete(emp.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
-  </table>
-</div>
-
-<div class="flex">
-  <button mat-mini-fab color="accent" aria-label="Add button" (click)="setShowCreateForm(true)">
-    <mat-icon>add</mat-icon>
+<div class="flex justify-end py-2">
+  <button mat-flat-button color="primary" aria-label="Add button" (click)="setShowCreateForm(true)">
+    <!-- <mat-icon>add</mat-icon> -->
+    Add
   </button>
 </div>
 
-<div *ngIf="showCreateForm">
+<div *ngIf="showCreateForm" class="py-2">
   <form [formGroup]="newEmployeeForm" (ngSubmit)="onCreate()" 
         class="flex flex-col">
     <mat-form-field>
@@ -123,7 +66,7 @@
   </form>
 </div>
 
-<div *ngIf="showUpdateForm">
+<div *ngIf="showUpdateForm" class="py-2">
   <form [formGroup]="updatedEmployee" (ngSubmit)="onUpdate()"
         class="flex flex-col">
     <mat-form-field>
@@ -150,4 +93,62 @@
     </mat-form-field>
     <button mat-flat-button color="primary" type="submit">Update</button>
   </form>
+</div>
+
+<div>
+  <table class="w-full mat-elevation-z1" mat-table [dataSource]="employees">
+
+    <!-- Name Furigana Column -->
+    <ng-container matColumnDef="nameFurigana">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let emp"> {{emp.nameFurigana}} </td>
+    </ng-container>
+
+    <!-- Name Kanji Column -->
+    <ng-container matColumnDef="nameKanji">
+      <th mat-header-cell *matHeaderCellDef>Name Kana</th>
+      <td mat-cell *matCellDef="let emp"> {{emp.nameKanji}} </td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let emp"> {{emp.email}} </td>
+    </ng-container>
+
+    <!-- Joining Date Column -->
+    <ng-container matColumnDef="joiningDate">
+      <th mat-header-cell *matHeaderCellDef>Joining Date</th>
+      <td mat-cell *matCellDef="let emp"> {{emp.joiningDate | date}} </td>
+    </ng-container>
+
+    <!-- Dept Name Column -->
+    <ng-container matColumnDef="deptNameFurigana">
+      <th mat-header-cell *matHeaderCellDef>Dept Name</th>
+      <td mat-cell *matCellDef="let emp"> {{emp.deptNameFurigana}} </td>
+    </ng-container>
+
+    <!-- Edit Button Column -->
+    <ng-container matColumnDef="editButton">
+      <th mat-header-cell *matHeaderCellDef>Edit</th>
+      <td mat-cell *matCellDef="let emp">
+        <button mat-mini-fab color="accent" aria-label="Edit button" (click)="update(emp.id)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Delete Button Column -->
+    <ng-container matColumnDef="deleteButton">
+      <th mat-header-cell *matHeaderCellDef>Delete</th>
+      <td mat-cell *matCellDef="let emp">
+        <button mat-mini-fab color="warn" aria-label="Delete button" (click)="delete(emp.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+  </table>
 </div>

@@ -36,10 +36,10 @@ export class EmployeesComponent implements OnInit {
   constructor(private employeeService: EmployeeService, private departmentService: DepartmentService) { }
 
   ngOnInit(): void {
-    this.employeeService.findAll().subscribe(data => {
+    this.employeeService.getAll().subscribe(data => {
       this.employees = data;
     });
-    this.departmentService.findAll().subscribe(data => {
+    this.departmentService.getAll().subscribe(data => {
       this.departments = data;
     });
   }
@@ -76,7 +76,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   onUpdate() {
-    this.employeeService.update(this.updatedEmployee.value).subscribe(() => {
+    this.employeeService.update(this.updatedEmployee.value.id, this.updatedEmployee.value).subscribe(() => {
       console.log('emp updated')
       window.location.reload()
     })

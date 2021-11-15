@@ -1,0 +1,78 @@
+<div class="flex justify-end py-2">
+  <button *ngIf="!showCreateForm" mat-flat-button color="primary" aria-label="Add button" (click)="setShowCreateForm(true)">
+    Add 
+  </button>
+  <button *ngIf="showCreateForm" mat-icon-button color="primary" aria-label="Add button" (click)="setShowCreateForm(false)">
+    <mat-icon>close</mat-icon> 
+  </button>
+</div>
+
+<div *ngIf="showCreateForm" class="py-2">
+  <form [formGroup]="newEntityForm" (ngSubmit)="onCreate()" 
+        class="flex flex-col">
+
+    
+    <mat-form-field *ngFor="let attribute of attributes" appearance="outline">
+      <mat-label for="attribute">{{attribute}}</mat-label>
+      <input matInput type="text" name={{attribute}} id={{attribute}} formControlName={{attribute}} required>
+      <div *ngIf="newEntityForm.get(attribute)?.invalid && (newEntityForm.get(attribute)?.dirty || newEntityForm.get(attribute)?.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newEntityForm.get(attribute)?.errors?.required">
+          This field is required.
+        </div>
+      </div>
+    </mat-form-field>
+
+
+    <button mat-flat-button color="primary" type="submit" [disabled]="!newEntityForm.valid">
+      Create
+    </button>
+  </form>
+</div>
+
+<div *ngIf="showUpdateForm" class="py-2">
+  <form [formGroup]="updatedEntityForm" (ngSubmit)="onUpdate()"
+        class="flex flex-col">
+
+    <mat-form-field *ngFor="let attribute of attributes">
+      <mat-label for="attribute">{{attribute}}: </mat-label>
+      <input matInput type="text" name={{attribute}} id={{attribute}} formControlName={{attribute}}>
+    </mat-form-field>
+   
+    <button mat-flat-button color="primary" type="submit">Update</button>
+  </form>
+</div>
+
+<div>
+  <table class="w-full mat-elevation-z1" mat-table [dataSource]="tableData">
+
+    <!-- Attribute Column -->
+    <ng-container *ngFor="let attribute of attributes" matColumnDef={{attribute}}>
+      <th mat-header-cell *matHeaderCellDef>{{attribute}}</th>
+      <td mat-cell *matCellDef="let entity"> {{entity[attribute]}} </td>
+    </ng-container>
+
+    <!-- Edit Button Column -->
+    <ng-container matColumnDef="editButton">
+      <th mat-header-cell *matHeaderCellDef>Edit</th>
+      <td mat-cell *matCellDef="let dept">
+        <button mat-mini-fab color="accent" aria-label="Edit button" (click)="update(dept.id)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Delete Button Column -->
+    <ng-container matColumnDef="deleteButton">
+      <th mat-header-cell *matHeaderCellDef>Delete</th>
+      <td mat-cell *matCellDef="let dept">
+        <button mat-mini-fab color="warn" aria-label="Delete button" (click)="delete(dept.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+  </table>
+</div>

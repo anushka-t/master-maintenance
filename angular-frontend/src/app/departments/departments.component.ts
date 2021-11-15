@@ -1,79 +1,91 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Department } from '../department';
+import { EntitiesComponent } from '../entities/entities.component';
+import { AbstractRestService } from '../service/abstract-rest.service';
 import { DepartmentService } from '../service/department.service';
 
 @Component({
   selector: 'app-departments',
   templateUrl: './departments.component.html',
-  styleUrls: ['./departments.component.css']
+  styleUrls: ['./departments.component.css'],
+  providers: [
+    { 
+      provide: 'actionUrl',
+      useValue: 'http://localhost:8080/api/department'
+    },  
+    {
+      provide: 'test',
+      useFactory: (http: HttpClient) => (new AbstractRestService<Department>(http, 'http://localhost:8080/api/department')),
+      deps: [HttpClient]
+    }
+  ]
 })
 export class DepartmentsComponent implements OnInit {
 
   columnsToDisplay: string[] = ['nameFurigana', 'nameKanji', 'extensionNumber', 'editButton', 'deleteButton']
-  departments: Department[];
-  showCreateForm: boolean = false;
-  showUpdateForm: boolean = false;
-  newDepartmentForm: FormGroup
+  departments: Department[]
+  showCreateForm: boolean = false
+  showUpdateForm: boolean = false
+  newDepartmentForm = new FormGroup({
+    nameFurigana: new FormControl('', Validators.required),
+    nameKanji: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required),
+    joiningDate: new FormControl(new Date(), Validators.required),
+    deptID: new FormControl(0, Validators.required)
+  })
   updatedDepartment = new FormGroup({
     id: new FormControl(0),
     nameFurigana: new FormControl(''),
     nameKanji: new FormControl(''),
-    extensionNumber: new FormControl('0000'),
+    email: new FormControl(''),
+    joiningDate: new FormControl(new Date()),
+    deptID: new FormControl(0)
   })
 
   constructor(private departmentService: DepartmentService) { }
 
   ngOnInit(): void {
-    this.departmentService.findAll().subscribe(data => {
-      this.departments = data;  
+    this.departmentService.getAll().subscribe(data => {
+      this.departments = data;
     });
-
-    this.newDepartmentForm = new FormGroup({
-      nameFurigana: new FormControl('', Validators.required),
-      nameKanji: new FormControl('', Validators.required),
-      extensionNumber: new FormControl('', Validators.required),
-    });
-    
   }
 
   get newDepartment() { return this.newDepartmentForm.controls }
-  get nameFurigana() { return this.newDepartmentForm.get('nameFurigana') }
-  get nameKanji() { return this.newDepartmentForm.get('nameKanji') }
-  get extensionNumber() { return this.newDepartmentForm.get('extensionNumber') }
-
 
   setShowCreateForm(state: boolean) {
-    this.showCreateForm = state;
+    this.showCreateForm = state
   }
   setShowUpdateForm(state: boolean) {
-    this.showUpdateForm = state;
+    this.showUpdateForm = state
   }
 
   update(id: number): void {
     this.setShowUpdateForm(true)
     this.departmentService.get(id).subscribe(data => {
+      console.log(data)
       this.updatedDepartment.setValue(data)
     })
   }
 
   delete(id: number): void {
     this.departmentService.delete(id).subscribe(() => {
-      console.log("dept deleted")
+      console.log("user deleted")
       window.location.reload()
     })
   }
 
   onCreate() {
     this.departmentService.create(this.newDepartmentForm.value).subscribe(() => {
-      console.log('new dept created')
+      console.log('new emp created')
       window.location.reload()
     })
   }
 
   onUpdate() {
-    this.departmentService.update(this.updatedDepartment.value).subscribe(() => {
-      console.log('dept updated')
+    this.departmentService.update(this.updatedDepartment.value.id, this.updatedDepartment.value).subscribe(() => {
+      console.log('emp updated')
       window.location.reload()
     })
   }
