@@ -13,11 +13,21 @@
 
     
     <mat-form-field *ngFor="let attribute of attributes" appearance="outline">
-      <mat-label for="attribute">{{attribute}}</mat-label>
-      <input matInput type="text" name={{attribute}} id={{attribute}} formControlName={{attribute}} required>
-      <div *ngIf="newEntityForm.get(attribute)?.invalid && (newEntityForm.get(attribute)?.dirty || newEntityForm.get(attribute)?.touched)"
+      <mat-label for="attribute.name">{{attribute.displayName}}</mat-label>
+
+      
+      <input *ngIf="attribute.formField === 'input'" 
+              matInput type={{attribute.type}} name={{attribute.name}} id={{attribute.name}} 
+              formControlName={{attribute.name}} required>
+
+      <mat-select *ngIf="attribute.formField === 'select'" 
+                  id={{attribute.name}} formControlName={{attribute.name}} required>
+        <mat-option *ngFor="let option of attribute.options" [value]="option.value"> {{option.name}} </mat-option>
+      </mat-select>
+
+      <div *ngIf="newEntityForm.get(attribute.name)?.invalid && (newEntityForm.get(attribute.name)?.dirty || newEntityForm.get(attribute.name)?.touched)"
         class="alert alert-danger">
-        <div *ngIf="newEntityForm.get(attribute)?.errors?.required">
+        <div *ngIf="newEntityForm.get(attribute.name)?.errors?.required">
           This field is required.
         </div>
       </div>
@@ -35,21 +45,43 @@
         class="flex flex-col">
 
     <mat-form-field *ngFor="let attribute of attributes">
-      <mat-label for="attribute">{{attribute}}: </mat-label>
-      <input matInput type="text" name={{attribute}} id={{attribute}} formControlName={{attribute}}>
+      <mat-label for="attribute.name">{{attribute.displayName}}</mat-label>
+      
+      <input *ngIf="attribute.formField === 'input'" 
+              matInput type={{attribute.type}} name={{attribute.name}} id={{attribute.name}} 
+              formControlName={{attribute.name}} required>
+
+      <mat-select *ngIf="attribute.formField === 'select'" 
+                  id={{attribute.name}} formControlName={{attribute.name}} required>
+        <mat-option *ngFor="let option of attribute.options" [value]="option.value"> {{option.name}} </mat-option>
+      </mat-select>
+
+      <div *ngIf="updatedEntityForm.get(attribute.name)?.invalid && (updatedEntityForm.get(attribute.name)?.dirty || updatedEntityForm.get(attribute.name)?.touched)"
+        class="alert alert-danger">
+        <div *ngIf="updatedEntityForm.get(attribute.name)?.errors?.required">
+          This field is required.
+        </div>
+      </div>
+
     </mat-form-field>
    
-    <button mat-flat-button color="primary" type="submit">Update</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="!updatedEntityForm.valid">Update</button>
   </form>
+</div>
+
+<div *ngFor="let attribute of attributes">
+  <div *ngFor="let pipe of attribute.pipes">
+    <p>{{pipe}}</p>
+  </div>
 </div>
 
 <div>
   <table class="w-full mat-elevation-z1" mat-table [dataSource]="tableData">
 
     <!-- Attribute Column -->
-    <ng-container *ngFor="let attribute of attributes" matColumnDef={{attribute}}>
-      <th mat-header-cell *matHeaderCellDef>{{attribute}}</th>
-      <td mat-cell *matCellDef="let entity"> {{entity[attribute]}} </td>
+    <ng-container *ngFor="let attribute of attributes" matColumnDef={{attribute.name}}>
+      <th mat-header-cell *matHeaderCellDef>{{attribute.displayName}}</th>
+      <td mat-cell *matCellDef="let entity"> {{entity[attribute.name]}} </td>
     </ng-container>
 
     <!-- Edit Button Column -->

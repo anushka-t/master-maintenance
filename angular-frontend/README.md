@@ -7,5 +7,9 @@
 - [ ] new feature - selecting using checkbox 
 - [ ] rethink page layout 
 - [ ] confirm validation of forms 
+- [x] refactor service
+- [x] refactor component
+- [ ] `attribute` type
+- [ ] `date` filter global
 
 

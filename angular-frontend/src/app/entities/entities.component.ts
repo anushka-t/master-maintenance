@@ -9,7 +9,7 @@ import { AbstractRestService } from '../service/abstract-rest.service';
 })
 export class EntitiesComponent<T> implements OnInit {
 
-  attributes: string[]
+  attributes: any[]
   tableData: T[]
   columnsToDisplay: string[]
   showCreateForm: boolean = false
@@ -18,26 +18,29 @@ export class EntitiesComponent<T> implements OnInit {
   updatedEntityForm: FormGroup
 
   constructor(protected restService: AbstractRestService<T>, 
-    @Inject('attributes') protected _attributes: string[]) { 
+    @Inject('attributes') protected _attributes: any[]) { 
     this.attributes = _attributes
   }
   
   ngOnInit(): void {
-    this.columnsToDisplay = this.attributes.concat(['editButton', 'deleteButton'])
+    this.columnsToDisplay = this.attributes
+                              .filter(attr => attr.display === true)
+                              .map(attr => attr.name)
+                              .concat(['editButton', 'deleteButton'])
     this.restService.getAll().subscribe(data => {
       this.tableData = data
     })
 
     this.newEntityForm = new FormGroup({})
     this.attributes.forEach(attr => {
-      this.newEntityForm.addControl(attr, new FormControl('', Validators.required))
+      this.newEntityForm.addControl(attr.name, new FormControl('', Validators.required))
     })
 
     this.updatedEntityForm = new FormGroup({
       id: new FormControl(0)
     })
     this.attributes.forEach(attr => {
-      this.updatedEntityForm.addControl(attr, new FormControl('', Validators.required))
+      this.updatedEntityForm.addControl(attr.name, new FormControl('', Validators.required))
     })
   }
 
