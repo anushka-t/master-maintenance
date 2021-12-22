@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DepartmentsComponent } from './departments/departments.component';
-import { EmployeesComponent } from './employees/employees.component';
-import { EntitiesComponent } from './entities/entities.component';
+import { DepartmentsComponent } from './component/departments/departments.component';
+import { EmployeesComponent } from './component/employees/employees.component';
+import { EntitiesComponent } from './component/entities/entities.component';
 
 const routes: Routes = [
   {path: 'departments', component: DepartmentsComponent},

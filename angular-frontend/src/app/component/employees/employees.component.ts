@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Employee } from '../employee';
-import { DepartmentService } from '../service/department.service';
-import { EmployeeService } from '../service/employee.service';
+import { Employee } from '../../model/employee';
+import { DepartmentService } from '../../service/department.service';
+import { EmployeeService } from '../../service/employee.service';
 import { EntitiesComponent } from '../entities/entities.component';
 
 @Component({
@@ -50,8 +50,9 @@ export class EmployeesComponent extends EntitiesComponent<Employee> implements O
         display: false,
       },
       {
-        name: "deptNameFurigana",
+        name: 'department.nameFurigana',
         displayName: "Dept Name",
+        type: "text",
         display: true
       }
     ])

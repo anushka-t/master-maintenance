@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "employees",
+  "info": {
+    "name": "Employee"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "nameFurigana": {
+      "type": "string",
+      "required": true
+    },
+    "nameKanji": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "joiningDate": {
+      "type": "date",
+      "required": true
+    },
+    "department": {
+      "model": "department"
+    }
+  }
+}

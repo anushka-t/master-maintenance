@@ -1,7 +1,7 @@
 import { Component, Inject, Injector, OnInit } from '@angular/core';
-import { Department } from '../department';
+import { Department } from '../../model/department';
 import { EntitiesComponent } from '../entities/entities.component';
-import { DepartmentService } from '../service/department.service';
+import { DepartmentService } from '../../service/department.service';
 
 @Component({
   selector: 'app-departments',

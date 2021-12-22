@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "departments",
+  "info": {
+    "name": "Department"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "nameFurigana": {
+      "type": "string",
+      "required": true
+    },
+    "nameKanji": {
+      "type": "string",
+      "required": true
+    },
+    "extensionNumber": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

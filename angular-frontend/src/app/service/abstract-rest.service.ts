@@ -33,7 +33,7 @@ export class AbstractRestService<T> {
 
   update(id: number, entity: T): Observable<T> {
     const url = `${this.actionUrl}/${id}`
-    return this._http.post<T>(url, entity)
+    return this._http.put<T>(url, entity)
   }
 
   transformDate(date: Date) {

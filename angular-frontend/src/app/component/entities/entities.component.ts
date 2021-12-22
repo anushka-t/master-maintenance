@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AbstractRestService } from '../service/abstract-rest.service';
+import { AbstractRestService } from '../../service/abstract-rest.service';
 
 @Component({
   selector: 'app-entities',

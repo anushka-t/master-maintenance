@@ -4,15 +4,15 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DepartmentsComponent } from './departments/departments.component';
-import { EmployeesComponent } from './employees/employees.component';
+import { DepartmentsComponent } from './component/departments/departments.component';
+import { EmployeesComponent } from './component/employees/employees.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from './shared/modules/material/material.module';
-import { EntitiesComponent } from './entities/entities.component'; 
+import { EntitiesComponent } from './component/entities/entities.component'; 
 import { AbstractRestService } from './service/abstract-rest.service';
-import { Department } from './department';
+import { Department } from './model/department';
 import { DepartmentService } from './service/department.service';
 import { EmployeeService } from './service/employee.service';
 
