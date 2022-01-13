@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+    angular:
+        build: angular-frontend 
+        ports: 
+            - "4200:4200"
+
+    strapi:
+        build: strapi-backend
+        ports:
+            - "1337:1337"
