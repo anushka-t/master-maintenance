@@ -15,13 +15,15 @@ import { AbstractRestService } from './service/abstract-rest.service';
 import { Department } from './model/department';
 import { DepartmentService } from './service/department.service';
 import { EmployeeService } from './service/employee.service';
+import { NestedParamPipe } from './pipe/nested-param.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     DepartmentsComponent,
     EmployeesComponent,
-    EntitiesComponent
+    EntitiesComponent,
+    NestedParamPipe
   ],
   imports: [
     BrowserModule,
@@ -34,6 +36,7 @@ import { EmployeeService } from './service/employee.service';
   providers: [
     { provide: 'departmentUrl', useValue: 'http://localhost:8080/api/department' },
     { provide: 'employeeUrl', useValue: 'http://localhost:8080/api/employee' },
+    NestedParamPipe
   ],
   bootstrap: [AppComponent]
 })

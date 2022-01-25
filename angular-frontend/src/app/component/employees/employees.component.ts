@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NestedParamPipe } from 'src/app/pipe/nested-param.pipe';
 import { Employee } from '../../model/employee';
 import { DepartmentService } from '../../service/department.service';
 import { EmployeeService } from '../../service/employee.service';
@@ -11,8 +12,8 @@ import { EntitiesComponent } from '../entities/entities.component';
 })
 export class EmployeesComponent extends EntitiesComponent<Employee> implements OnInit {
 
-  constructor(private employeeService: EmployeeService, private departmentService: DepartmentService) { 
-    super(employeeService, [
+  constructor(private employeeService: EmployeeService, private departmentService: DepartmentService, protected nestedParamPipe: NestedParamPipe) { 
+    super(employeeService, nestedParamPipe, [
       {
         name: "nameFurigana",
         displayName: "Name",
@@ -43,7 +44,7 @@ export class EmployeesComponent extends EntitiesComponent<Employee> implements O
         pipe: 'date'
       },
       {
-        name: "deptID",
+        name: "department.id",
         displayName: "Dept Name",
         formField: "select",
         options: [],
@@ -60,13 +61,14 @@ export class EmployeesComponent extends EntitiesComponent<Employee> implements O
 
   ngOnInit(): void {
     super.ngOnInit()
-    let deptAttribute = this.attributes.find(attr => attr.name === 'deptID')
+    let deptAttribute = this.attributes.find(attr => attr.name === 'department.id')
     this.departmentService.getAll().subscribe(data => {
       deptAttribute.options = data.map(dept => ({
         name: dept.nameFurigana,
         value: dept.id
       }))
     })
+    console.log(this.attributes)
   }
 
 }
