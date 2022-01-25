@@ -23,4 +23,4 @@ COPY . /app/
 EXPOSE 1337
 
 # Serve the app
-CMD ["yarn", "start"]
+RUN yarn run develop

@@ -2,6 +2,7 @@ import { Component, Inject, Injector, OnInit } from '@angular/core';
 import { Department } from '../../model/department';
 import { EntitiesComponent } from '../entities/entities.component';
 import { DepartmentService } from '../../service/department.service';
+import { NestedParamPipe } from 'src/app/pipe/nested-param.pipe';
 
 @Component({
   selector: 'app-departments',
@@ -10,8 +11,8 @@ import { DepartmentService } from '../../service/department.service';
 })
 export class DepartmentsComponent extends EntitiesComponent<Department> implements OnInit {
 
-  constructor(private departmentService: DepartmentService) { 
-    super(departmentService, [
+  constructor(private departmentService: DepartmentService, protected nestedParamPipe: NestedParamPipe) { 
+    super(departmentService, nestedParamPipe, [
       {
         name: "nameFurigana",
         displayName: "Name",

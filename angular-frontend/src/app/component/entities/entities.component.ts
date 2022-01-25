@@ -1,5 +1,6 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NestedParamPipe } from 'src/app/pipe/nested-param.pipe';
 import { AbstractRestService } from '../../service/abstract-rest.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class EntitiesComponent<T> implements OnInit {
   newEntityForm: FormGroup
   updatedEntityForm: FormGroup
 
-  constructor(protected restService: AbstractRestService<T>, 
+  constructor(protected restService: AbstractRestService<T>, protected nestedParamPipe: NestedParamPipe,
     @Inject('attributes') protected _attributes: any[]) { 
     this.attributes = _attributes
   }
@@ -33,7 +34,18 @@ export class EntitiesComponent<T> implements OnInit {
 
     this.newEntityForm = new FormGroup({})
     this.attributes.forEach(attr => {
-      this.newEntityForm.addControl(attr.name, new FormControl('', Validators.required))
+      if(attr.name.split('.').length > 1) {
+        
+        let splited = attr.name.split('.')
+        console.log(splited)
+        // this.newEntityForm.addControl(splited[0], new FormGroup({}))
+        // let nestedForm: FormGroup = this.newEntityForm.get(splited[0])
+        // nestedForm.addControl(splited[1], new FormControl('', Validators.required))
+        // console.log(this.newEntityForm)
+
+      } else {
+        this.newEntityForm.addControl(attr.name, new FormControl('', Validators.required))
+      }
     })
 
     this.updatedEntityForm = new FormGroup({
@@ -42,6 +54,7 @@ export class EntitiesComponent<T> implements OnInit {
     this.attributes.forEach(attr => {
       this.updatedEntityForm.addControl(attr.name, new FormControl('', Validators.required))
     })
+    console.log(this.updatedEntityForm)
   }
 
   get newEntity() { return this.newEntityForm.controls }
@@ -51,7 +64,14 @@ export class EntitiesComponent<T> implements OnInit {
   update(id: number): void {
     this.setShowUpdateForm(true)
     this.restService.get(id).subscribe(data => {
-      this.updatedEntityForm.setValue(data)
+      let formValue: any = {}
+      let formData: any = data
+      formValue.id = formData['id']
+      this.attributes.forEach(a => {
+        formValue[a.name] = this.nestedParamPipe.transform(formData, a.name)
+      })
+      console.log(formValue)
+      this.updatedEntityForm.setValue(formValue)
     })
   }
 
@@ -63,16 +83,22 @@ export class EntitiesComponent<T> implements OnInit {
   }
 
   onCreate() {
+    Object.keys(this.newEntityForm.value).forEach(key => {
+      if(key.split('.').length > 1 && key.split('.')[1] === 'id') {
+
+      } 
+    })
     this.restService.create(this.newEntityForm.value).subscribe(() => {
       console.log(`new entity created`)
-      window.location.reload()
+      // window.location.reload()  
     })
   }
 
   onUpdate() {
+    console.log(this.updatedEntityForm.value)
     this.restService.update(this.updatedEntityForm.value.id, this.updatedEntityForm.value).subscribe(() => {
       console.log(`entity updated`)
-      window.location.reload()
+      // window.location.reload()
     })
   }
 }
