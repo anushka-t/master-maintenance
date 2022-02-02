@@ -30,6 +30,8 @@ export class EntitiesComponent<T> implements OnInit {
                               .concat(['editButton', 'deleteButton'])
     this.restService.getAll().subscribe(data => {
       this.tableData = data
+      console.log('table data: ')
+      console.log(this.tableData)
     })
 
     this.newEntityForm = new FormGroup({})
@@ -83,14 +85,9 @@ export class EntitiesComponent<T> implements OnInit {
   }
 
   onCreate() {
-    Object.keys(this.newEntityForm.value).forEach(key => {
-      if(key.split('.').length > 1 && key.split('.')[1] === 'id') {
-
-      } 
-    })
     this.restService.create(this.newEntityForm.value).subscribe(() => {
       console.log(`new entity created`)
-      // window.location.reload()  
+      window.location.reload()  
     })
   }
 
@@ -98,7 +95,7 @@ export class EntitiesComponent<T> implements OnInit {
     console.log(this.updatedEntityForm.value)
     this.restService.update(this.updatedEntityForm.value.id, this.updatedEntityForm.value).subscribe(() => {
       console.log(`entity updated`)
-      // window.location.reload()
+      window.location.reload()
     })
   }
 }

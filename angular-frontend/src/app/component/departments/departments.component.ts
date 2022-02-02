@@ -31,7 +31,7 @@ export class DepartmentsComponent extends EntitiesComponent<Department> implemen
         name: "extensionNumber",
         displayName: "Extension No",
         formField: "input",
-        type: "number",
+        type: "text",
         display: true,
       }
     ])

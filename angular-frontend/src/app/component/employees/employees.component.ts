@@ -44,14 +44,14 @@ export class EmployeesComponent extends EntitiesComponent<Employee> implements O
         pipe: 'date'
       },
       {
-        name: "department.id",
+        name: "department",
         displayName: "Dept Name",
         formField: "select",
         options: [],
         display: false,
       },
       {
-        name: 'department.nameFurigana',
+        name: 'departmentName',
         displayName: "Dept Name",
         type: "text",
         display: true
@@ -61,14 +61,15 @@ export class EmployeesComponent extends EntitiesComponent<Employee> implements O
 
   ngOnInit(): void {
     super.ngOnInit()
-    let deptAttribute = this.attributes.find(attr => attr.name === 'department.id')
+    let deptAttribute = this.attributes.find(attr => attr.name === 'department')
     this.departmentService.getAll().subscribe(data => {
-      deptAttribute.options = data.map(dept => ({
+      deptAttribute.options = data.map((dept: any) => ({
         name: dept.nameFurigana,
         value: dept.id
       }))
     })
     console.log(this.attributes)
+
   }
 
 }

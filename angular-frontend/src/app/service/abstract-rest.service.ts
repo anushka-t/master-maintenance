@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,17 +10,17 @@ import { Observable } from 'rxjs';
 export class AbstractRestService<T> {
 
   constructor(protected _http: HttpClient,
-    @Inject('actionUrl') private actionUrl: string,
+    @Inject('actionUrl') protected actionUrl: string,
     @Inject(LOCALE_ID) protected locale: string) { 
   }
 
-  getAll(): Observable<T[]> {
-    return this._http.get<T[]>(this.actionUrl)
+  getAll(): Observable<any> {
+    return this._http.get<any>(this.actionUrl)
   }
 
-  get(id: number): Observable<T> {
+  get(id: number): Observable<any> {
     const url = `${this.actionUrl}/${id}`
-    return this._http.get<T>(url)
+    return this._http.get<any>(url)
   }
 
   delete(id: number): Observable<unknown> {
@@ -27,13 +28,21 @@ export class AbstractRestService<T> {
     return this._http.delete(url)
   }
 
-  create(entity: T): Observable<T> {
-    return this._http.post<T>(this.actionUrl, entity)
+  create(entity: T): Observable<any> {
+    return this._http.post<any>(this.actionUrl, {
+      data: {
+        ...entity
+      }
+    })
   }
 
-  update(id: number, entity: T): Observable<T> {
+  update(id: number, entity: T): Observable<any> {
     const url = `${this.actionUrl}/${id}`
-    return this._http.put<T>(url, entity)
+    return this._http.put<any>(url, {
+      data: {
+        ...entity
+      }
+    })
   }
 
   transformDate(date: Date) {

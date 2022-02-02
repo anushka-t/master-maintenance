@@ -8,6 +8,7 @@ import { DepartmentsComponent } from './component/departments/departments.compon
 import { EmployeesComponent } from './component/employees/employees.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { MaterialModule } from './shared/modules/material/material.module';
 import { EntitiesComponent } from './component/entities/entities.component'; 
@@ -16,6 +17,7 @@ import { Department } from './model/department';
 import { DepartmentService } from './service/department.service';
 import { EmployeeService } from './service/employee.service';
 import { NestedParamPipe } from './pipe/nested-param.pipe';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -31,11 +33,11 @@ import { NestedParamPipe } from './pipe/nested-param.pipe';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
-    { provide: 'departmentUrl', useValue: 'http://localhost:8080/api/department' },
-    { provide: 'employeeUrl', useValue: 'http://localhost:8080/api/employee' },
     NestedParamPipe
   ],
   bootstrap: [AppComponent]
